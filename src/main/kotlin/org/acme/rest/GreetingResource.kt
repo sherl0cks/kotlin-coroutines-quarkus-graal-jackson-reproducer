@@ -8,6 +8,9 @@ import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
+import kotlin.reflect.jvm.internal.impl.builtins.DefaultBuiltIns
+import kotlin.reflect.jvm.internal.impl.builtins.KotlinBuiltIns
+import kotlin.reflect.jvm.internal.impl.builtins.jvm.JvmBuiltIns
 
 @Path("/greeting")
 class GreetingResource {
@@ -47,3 +50,16 @@ class GreetingResource {
 
 @RegisterForReflection
 data class Foo(var name: String = "")
+
+
+/**
+ * Try to force Graal to leave these on the classpath
+ */
+@RegisterForReflection(
+    targets = [
+        KotlinBuiltIns::class,
+        JvmBuiltIns::class,
+        DefaultBuiltIns::class
+    ]
+)
+class GraalReflectionConfig
